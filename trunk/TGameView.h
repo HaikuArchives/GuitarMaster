@@ -2,6 +2,7 @@
 #define TGAMEVIEW_H
 
 #include <GLView.h>
+#include "TGraphics.h"
 
 namespace org
 {
@@ -10,7 +11,7 @@ namespace org
 		class TGameView : public BGLView
 		{
 			private:
-			int x;
+			graphics::TGraphics * graphics;
 			
 			public:
 			
@@ -19,7 +20,7 @@ namespace org
 			
 			void Render(void);
 			
-			virtual void FrameResized(float x,float y);
+			virtual void FrameResized(float w,float h);
 			virtual void AttachedToWindow(void);
 			
 		};
