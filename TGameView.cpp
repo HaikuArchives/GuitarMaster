@@ -5,6 +5,7 @@
 #include <Region.h>
 #include <GL/gl.h>
 
+using namespace org::toxic::graphics;
 using namespace org::toxic;
 using namespace std;
 
@@ -12,6 +13,7 @@ using namespace std;
 TGameView::TGameView(BRect frame): BGLView(frame,"game view",B_FOLLOW_ALL_SIDES, 0,BGL_RGB | BGL_DOUBLE)
 {
 	cout<<"game view"<<endl;
+	graphics = new TGraphics();
 	
 }
 
@@ -20,6 +22,7 @@ TGameView::TGameView(BRect frame): BGLView(frame,"game view",B_FOLLOW_ALL_SIDES,
 TGameView::~TGameView()
 {
 	cout<<"game view destructor"<<endl;
+	delete graphics;
 }
 
 
@@ -27,10 +30,7 @@ void TGameView::Render()
 {
 	LockGL();
 	
-	glClearColor(0.0f,0.0f,1.0f,1.0f);
-	
-	glClear(GL_COLOR_BUFFER_BIT);
-	
+	graphics->Draw();
 	
 	
 	UnlockGL();
@@ -38,14 +38,20 @@ void TGameView::Render()
 }
 
 
-void TGameView::FrameResized(float x,float y)
+void TGameView::FrameResized(float w,float h)
 {
-	cout<<"Resized "<<x<<","<<y<<endl;	
+	cout<<"Resized "<<w<<","<<h<<endl;
+	
+	LockGL();
+	graphics->Resize(w,h);
+	
+	UnlockGL();	
 }
 
 
 void TGameView::AttachedToWindow(void)
 {
 	BGLView::AttachedToWindow();
-	cout<<"Attached to window"<<endl; 	
+	cout<<"Attached to window"<<endl;
+	FrameResized(Bounds().right,Bounds().bottom); 	
 }
