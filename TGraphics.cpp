@@ -21,8 +21,9 @@ TGraphics::~TGraphics()
 void TGraphics::Init()
 {
 	//disabling z-buffering gives some extra performance
-	//glDisable(GL_DEPTH_TEST);
-	glEnable(GL_DITHER);
+	glDisable(GL_DEPTH_TEST);
+	glShadeModel(GL_FLAT);
+	//glEnable(GL_DITHER);
 	
 	
 	
@@ -47,20 +48,24 @@ void TGraphics::Draw()
 	
 	glBegin(GL_LINES);
 	
-	glColor3f(1.0f,0.0f,0.0f);
+	//glColor4f(0.0f,0.0f,1.0f,1.0f);
 	
 	glVertex2f(0.0f,20.0f);
 	glVertex2f(100.0f,20.0f);
 	
 	glVertex2f(0.0f,40.0f);
 	glVertex2f(100.0f,40.0f);
+	
 		
 	glVertex2f(0.0f,60.0f);
 	glVertex2f(100.0f,60.0f);
+	
 		
 	glVertex2f(0.0f,80.0f);
 	glVertex2f(100.0f,80.0f);
 
+	glColor4f(0.0f,0.0f,1.0f,1.0f);
+	
 	glEnd();
 	
 		
@@ -71,6 +76,6 @@ void TGraphics::Draw()
 void TGraphics::Clear()
 {
 	
-	glClearColor(0.3f,0.7f,0.3f,0.0f);
+	glClearColor(0.3f,0.7f,0.3f,1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
