@@ -20,6 +20,12 @@ TGraphics::~TGraphics()
 
 void TGraphics::Init()
 {
+	//disabling z-buffering gives some extra performance
+	//glDisable(GL_DEPTH_TEST);
+	glEnable(GL_DITHER);
+	
+	
+	
 	
 }
 
@@ -28,8 +34,9 @@ void TGraphics::Resize(float w,float h)
 	glViewport(0,0,w,h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0.0f,100.0f,100.0f,0.0f,1.0f,100.0f);
+	glOrtho(-100.0f,100.0f,100.0f,-100.0f,0.0f,100.0f);
 	glMatrixMode(GL_MODELVIEW);	
+	glLoadIdentity();
 }
 
 
@@ -37,16 +44,26 @@ void TGraphics::Draw()
 {
 	Clear();
 	
-	glColor3ub(255,0,0);
 	
-	glBegin(GL_QUADS);
+	glBegin(GL_LINES);
+	
+	glColor3f(1.0f,0.0f,0.0f);
+	
 	glVertex2f(0.0f,20.0f);
-	glVertex2f(20.0f,20.0f);
-	glVertex2f(20.0f,0.0f);
-	glVertex2f(0.0f,0.0f);
+	glVertex2f(100.0f,20.0f);
 	
+	glVertex2f(0.0f,40.0f);
+	glVertex2f(100.0f,40.0f);
+		
+	glVertex2f(0.0f,60.0f);
+	glVertex2f(100.0f,60.0f);
+		
+	glVertex2f(0.0f,80.0f);
+	glVertex2f(100.0f,80.0f);
+
 	glEnd();
 	
+		
 	
 }
 
@@ -54,6 +71,6 @@ void TGraphics::Draw()
 void TGraphics::Clear()
 {
 	
-	glClearColor(0.0f,0.0f,1.0f,1.0f);
+	glClearColor(0.3f,0.7f,0.3f,0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }

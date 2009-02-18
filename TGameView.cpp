@@ -31,10 +31,9 @@ void TGameView::Render()
 	LockGL();
 	
 	graphics->Draw();
-	
-	
+	SwapBuffers();	
 	UnlockGL();
-	SwapBuffers(true);
+	
 }
 
 
@@ -54,4 +53,9 @@ void TGameView::AttachedToWindow(void)
 	BGLView::AttachedToWindow();
 	cout<<"Attached to window"<<endl;
 	FrameResized(Bounds().right,Bounds().bottom); 	
+	
+	LockGL();
+	graphics->Init();
+	UnlockGL();
+	
 }
