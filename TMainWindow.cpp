@@ -2,7 +2,10 @@
 
 
 #include "TMainWindow.h"
-#include "Application.h"
+#include <Application.h>
+#include <MenuItem.h>
+#include <MenuBar.h>
+#include <Menu.h>
 #include <iostream>
 
 using namespace org::toxic;
@@ -16,7 +19,38 @@ TMainWindow::TMainWindow(BRect frame): BWindow(frame,"Guitar Master",B_TITLED_WI
 	timer = new BMessageRunner(this,new BMessage(T_MSG_FRAME),50000,-1);
 	
 	ResizeTo(640,480);
-	gameview = new TGameView(BRect(5,5,635,400));
+	
+	BRect bounds = Bounds();
+	bounds.bottom = bounds.top + 15;
+	BMenuBar * menubar = new BMenuBar(bounds,"main menu");
+		
+	
+	BMenu * menu;
+	BMenuItem * item;
+	
+	//Game menu
+	menu = new BMenu("Game");
+	//----items
+	item = new BMenuItem("Quit",new BMessage(B_QUIT_REQUESTED),'Q');
+	menu->AddItem(item);
+	
+	menubar->AddItem(menu);
+	
+	//Songs menu
+	menu = new BMenu("Songs");
+	// fill with available song list...
+	menubar->AddItem(menu);
+	
+	AddChild(menubar);
+	//menubar->ResizeToPreferred();
+	
+	//BGLView
+	bounds.top=menubar->Bounds().bottom+1;
+	bounds.bottom = Bounds().bottom;
+	gameview = new TGameView(bounds);
+	
+	
+	
 	AddChild(gameview);
 	Show();
 }
