@@ -24,6 +24,8 @@ namespace org
 		
 			TMainWindow(BRect frame);
 			~TMainWindow();
+			
+		
 		
 			virtual bool QuitRequested();
 			virtual void MessageReceived(BMessage * mesg);
