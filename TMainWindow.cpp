@@ -6,6 +6,7 @@
 #include <MenuItem.h>
 #include <MenuBar.h>
 #include <Menu.h>
+#include <Directory.h>
 #include <iostream>
 
 using namespace org::toxic;
@@ -16,7 +17,19 @@ TMainWindow::TMainWindow(BRect frame): BWindow(frame,"Guitar Master",B_TITLED_WI
 {
 	cout<<"Main window"<<endl;
 	
+	
 	timer = new BMessageRunner(this,new BMessage(T_MSG_FRAME),50000,-1);
+	
+	BDirectory songs_dir("songs");
+	
+	if(songs_dir.InitCheck()!=B_OK)
+	{
+		cout<<"Songs dir not found"<<endl;	
+	}
+	else
+	{
+		cout<<"Found :"<<songs_dir.CountEntries()<<endl;	
+	}
 	
 	ResizeTo(640,480);
 	
@@ -62,6 +75,9 @@ TMainWindow::~TMainWindow()
 	cout<<"main window destructor"<<endl;
 	delete timer;
 }
+
+
+
 
 
 void TMainWindow::MessageReceived(BMessage * mesg)
