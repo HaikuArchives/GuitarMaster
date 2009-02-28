@@ -20,16 +20,7 @@ TMainWindow::TMainWindow(BRect frame): BWindow(frame,"Guitar Master",B_TITLED_WI
 	
 	timer = new BMessageRunner(this,new BMessage(T_MSG_FRAME),50000,-1);
 	
-	BDirectory songs_dir("songs");
 	
-	if(songs_dir.InitCheck()!=B_OK)
-	{
-		cout<<"Songs dir not found"<<endl;	
-	}
-	else
-	{
-		cout<<"Found :"<<songs_dir.CountEntries()<<endl;	
-	}
 	
 	ResizeTo(640,480);
 	
@@ -52,7 +43,44 @@ TMainWindow::TMainWindow(BRect frame): BWindow(frame,"Guitar Master",B_TITLED_WI
 	//Songs menu
 	menu = new BMenu("Songs");
 	// fill with available song list...
+	cout<<"Reading songs directory..."<<endl;
+	
+	BDirectory songs_dir("songs");
+	BEntry entry;
+	char str[B_FILE_NAME_LENGTH];
+	
+	if(songs_dir.InitCheck()!=B_OK)
+	{
+		cout<<"Songs dir not found"<<endl;	
+	}
+	else
+	{
+		int num = songs_dir.CountEntries();
+		cout<<"Found :"<<num<<endl;
+		
+		for(int i=0;i<num;i++)
+		{
+			songs_dir.GetNextEntry(&entry,false);
+			entry.GetName(str);
+			cout<<"name: "<<str<<endl;
+			
+			item = new BMenuItem(str,NULL);
+			menu->AddItem(item);
+				
+		}	
+	}
 	menubar->AddItem(menu);
+	
+	//Play menu
+	menu = new BMenu("Play");
+	item = new BMenuItem("Easy",NULL);
+	menu->AddItem(item);
+	item = new BMenuItem("Normal",NULL);
+	menu->AddItem(item);
+	item = new BMenuItem("Amazing",NULL);
+	menu->AddItem(item);
+	menubar->AddItem(menu);
+	
 	
 	AddChild(menubar);
 	//menubar->ResizeToPreferred();
