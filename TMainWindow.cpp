@@ -48,6 +48,7 @@ TMainWindow::TMainWindow(BRect frame): BWindow(frame,"Guitar Master",B_TITLED_WI
 	BDirectory songs_dir("songs");
 	BEntry entry;
 	char str[B_FILE_NAME_LENGTH];
+	BMessage * message;
 	
 	if(songs_dir.InitCheck()!=B_OK)
 	{
@@ -64,7 +65,9 @@ TMainWindow::TMainWindow(BRect frame): BWindow(frame,"Guitar Master",B_TITLED_WI
 			entry.GetName(str);
 			cout<<"name: "<<str<<endl;
 			
-			item = new BMenuItem(str,NULL);
+			message = new BMessage(T_MSG_SELECT_SONG);
+			message->AddString("song",str);
+			item = new BMenuItem(str,message);
 			menu->AddItem(item);
 				
 		}	
@@ -110,10 +113,17 @@ TMainWindow::~TMainWindow()
 
 void TMainWindow::MessageReceived(BMessage * mesg)
 {
+	const char * str;
+	
 	switch(mesg->what)
 	{
 		case T_MSG_FRAME:
 			gameview->Render();
+		break;
+		
+		case T_MSG_SELECT_SONG:
+			mesg->FindString("song",&str);
+			cout<<"User wants to play "<<str<<endl;
 		break;
 	
 		

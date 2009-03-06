@@ -7,7 +7,8 @@
 #include <MessageRunner.h>
 #include "TGameView.h"
 
-#define T_MSG_FRAME 0xFF00FFAA
+#define T_MSG_FRAME 0x00FF0011
+#define T_MSG_SELECT_SONG 0x00FF0022
 
 namespace org
 {
