@@ -16,6 +16,7 @@ TMidiReader::TMidiReader(const char * filename)
 	
 	file = NULL;
 	file = new BFile(filename,B_READ_ONLY);
+	ReadChunk();
 	
 }
 
@@ -53,7 +54,7 @@ bool TMidiReader::ReadChunk()
 	
 	
 	default:
-	cout<<"Unknown chunk id"<<endl;	
+	cout<<"Unknown chunk id "<<hex<<id<<endl;	
 	}
 	
 	return true;
@@ -81,6 +82,5 @@ void TMidiReader::ReadHeader()
 void TMidiReader::ReadTrack()
 {
 	
+	
 }
-
-
