@@ -17,6 +17,7 @@ TMidiReader::TMidiReader(const char * filename)
 	file = NULL;
 	file = new BFile(filename,B_READ_ONLY);
 	ReadChunk();
+	ReadChunk();
 	
 }
 
@@ -42,6 +43,9 @@ bool TMidiReader::ReadChunk()
 	file->Read(&id,4);
 	file->Read(&size,4);
 	
+	id=SwapUint(id);
+	size=SwapUint(size);
+	
 	switch(id)
 	{
 		case MIDI_HEAD_CHUNK:
@@ -49,7 +53,7 @@ bool TMidiReader::ReadChunk()
 		break;
 		
 		case MIDI_TRACK_CHUNK:
-		
+			ReadTrack();
 		break;
 	
 	
@@ -71,6 +75,10 @@ void TMidiReader::ReadHeader()
 	file->Read(&tracks,2);
 	file->Read(&division,2);
 	
+	type=SwapUshort(type);
+	tracks=SwapUshort(type);
+	division=SwapUshort(division);
+	
 	cout<<"type "<<type<<endl;
 	cout<<"tracks "<<tracks<<endl;
 	cout<<"division "<<division<<endl;
@@ -81,6 +89,79 @@ void TMidiReader::ReadHeader()
 
 void TMidiReader::ReadTrack()
 {
+	unsigned int delta;
+	unsigned char type;
+	unsigned char channel;
+	unsigned char p1;
+	unsigned char p2;
+	unsigned int tmp = 0;
+	
+	
+	file->Read(&tmp,1);
+	delta=tmp;
+	if(tmp>0x80)
+	{
+		file->Read(&tmp,1);
+		delta += tmp<<8;
+	}
+	//TODO
+	
+	file->Read(&tmp,1);
+	type=tmp & 0x000000F0;
+	type=type>>4;
+	channel=tmp&0x0000000F;
+	
+	switch(type)
+	{
+	
+		default:
+		cout<<"Unknown event :"<<hex<<type<<endl;	
+	}
+	
 	
 	
 }
+
+unsigned short TMidiReader::SwapUshort(unsigned short d)
+{
+	unsigned short tmp;
+	unsigned short res;
+	
+	tmp = 0x00FF & d;
+	tmp = tmp<<8;
+	res=tmp;
+	
+	tmp = 0xFF00 & d;
+	tmp = tmp>>8;
+	res+=tmp;
+	
+	return res;
+}
+
+unsigned int TMidiReader::SwapUint(unsigned int d)
+{
+	unsigned int tmp;
+	unsigned int res;
+	
+	tmp = 0x000000FF & d;	
+	tmp=tmp<<24;
+	res=tmp;
+	
+	tmp = 0x0000FF00 & d;	
+	tmp=tmp<<8;
+	res+=tmp;
+	
+	tmp = 0x00FF0000 & d;	
+	tmp=tmp>>8;
+	res+=tmp;
+	
+	tmp = 0xFF000000 & d;	
+	tmp=tmp>>24;
+	res+=tmp;
+	
+	return res;
+	
+	
+}
+
+				
