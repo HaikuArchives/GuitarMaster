@@ -128,7 +128,7 @@ void TMainWindow::MessageReceived(BMessage * mesg)
 		case T_MSG_SELECT_SONG:
 			mesg->FindString("song",&str);
 			
-			spath<<"songs/"<<str;
+			spath<<"songs/"<<str<<"/notes.mid";
 			
 			cout<<"Selected: "<<spath.String()<<endl;
 			
