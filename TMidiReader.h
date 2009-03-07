@@ -1,6 +1,10 @@
 #ifndef TMIDIREADER_H
 #define TMIDIREADER_H
 
+#include <File.h>
+
+#define MIDI_HEAD_CHUNK 0x4D546864
+#define MIDI_TRACK_CHUNK 0x4D54726B
 
 namespace org
 {
@@ -10,9 +14,17 @@ namespace org
 		{
 			class TMidiReader
 			{
+				private:
+				BFile * file;
+				
+				bool ReadChunk();
+				void ReadHeader();
+				void ReadTrack();
+				
 				public:
 				
-				TMidiReader();
+				
+				TMidiReader(const char * file);
 				~TMidiReader();
 				
 				void Close();
