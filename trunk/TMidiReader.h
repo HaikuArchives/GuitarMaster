@@ -21,6 +21,9 @@ namespace org
 				void ReadHeader();
 				void ReadTrack();
 				
+				unsigned int SwapUint(unsigned int d);
+				unsigned short SwapUshort(unsigned short d);
+				
 				public:
 				
 				
