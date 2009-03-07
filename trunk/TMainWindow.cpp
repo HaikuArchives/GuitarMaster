@@ -2,14 +2,17 @@
 
 
 #include "TMainWindow.h"
+#include "TMidiReader.h"
 #include <Application.h>
 #include <MenuItem.h>
 #include <MenuBar.h>
 #include <Menu.h>
 #include <Directory.h>
+#include <String.h>
 #include <iostream>
 
 using namespace org::toxic;
+using namespace org::toxic::resources;
 using namespace std;
 
 
@@ -114,6 +117,7 @@ TMainWindow::~TMainWindow()
 void TMainWindow::MessageReceived(BMessage * mesg)
 {
 	const char * str;
+	BString spath;
 	
 	switch(mesg->what)
 	{
@@ -123,7 +127,14 @@ void TMainWindow::MessageReceived(BMessage * mesg)
 		
 		case T_MSG_SELECT_SONG:
 			mesg->FindString("song",&str);
-			cout<<"User wants to play "<<str<<endl;
+			
+			spath<<"songs/"<<str;
+			
+			cout<<"Selected: "<<spath.String()<<endl;
+			
+			TMidiReader * reader = new TMidiReader(spath.String());
+			delete reader;
+			
 		break;
 	
 		
