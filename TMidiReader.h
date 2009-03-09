@@ -19,7 +19,7 @@ namespace org
 				
 				bool ReadChunk();
 				void ReadHeader();
-				void ReadTrack();
+				void ReadTrack(int size);
 				
 				unsigned int SwapUint(unsigned int d);
 				unsigned short SwapUshort(unsigned short d);

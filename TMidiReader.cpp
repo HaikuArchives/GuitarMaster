@@ -18,7 +18,7 @@ TMidiReader::TMidiReader(const char * filename)
 	file = new BFile(filename,B_READ_ONLY);
 	ReadChunk();
 	ReadChunk();
-	
+	ReadChunk();	
 }
 
 
@@ -53,7 +53,7 @@ bool TMidiReader::ReadChunk()
 		break;
 		
 		case MIDI_TRACK_CHUNK:
-			ReadTrack();
+			ReadTrack(size);
 		break;
 	
 	
@@ -87,7 +87,7 @@ void TMidiReader::ReadHeader()
 }
 
 
-void TMidiReader::ReadTrack()
+void TMidiReader::ReadTrack(int size)
 {
 	unsigned int delta;
 	unsigned char type;
@@ -96,29 +96,49 @@ void TMidiReader::ReadTrack()
 	unsigned char p2;
 	unsigned int tmp = 0;
 	
+	off_t block = file->Position() + size;
 	
-	file->Read(&tmp,1);
-	delta=tmp;
-	if(tmp>0x80)
+	cout<<"Reading Track"<<endl;
+	
+	while(file->Position()<block)
 	{
+		
+		
 		file->Read(&tmp,1);
-		delta += tmp<<8;
+		delta=tmp;
+		if(tmp>0x80)
+		{
+			file->Read(&tmp,1);
+			delta += tmp<<8;
+		}
+		//TODO
+		
+		file->Read(&tmp,1);
+		type=tmp & 0x000000F0;
+		type=type>>4;
+		channel=tmp&0x0000000F;
+		
+		file->Read(&p1,1);
+		file->Read(&p2,1);
+		
+		
+		switch(type)
+		{
+			case 0x8:
+				cout<<"Note Off "<<hex<<((int)p1)<<endl;
+			break;
+			
+			case 0x9:
+				cout<<"Note On "<<hex<<((int)p1)<<endl;
+			break;
+			
+			
+		
+			default:
+			cout<<"Unknown event :"<<hex<<((int)type)<<endl;	
+		}
+		
 	}
-	//TODO
-	
-	file->Read(&tmp,1);
-	type=tmp & 0x000000F0;
-	type=type>>4;
-	channel=tmp&0x0000000F;
-	
-	switch(type)
-	{
-	
-		default:
-		cout<<"Unknown event :"<<hex<<type<<endl;	
-	}
-	
-	
 	
 }
 
