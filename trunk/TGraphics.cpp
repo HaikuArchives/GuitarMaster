@@ -35,7 +35,7 @@ void TGraphics::Resize(float w,float h)
 	glViewport(0,0,w,h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-100.0f,100.0f,100.0f,-100.0f,0.0f,100.0f);
+	glOrtho(0.0f,100.0f,100.0f,0.0f,0.0f,100.0f);
 	glMatrixMode(GL_MODELVIEW);	
 	glLoadIdentity();
 }
