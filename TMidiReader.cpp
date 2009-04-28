@@ -106,10 +106,10 @@ void TMidiReader::ReadTrack(int size)
 		
 		file->Read(&tmp,1);
 		delta=tmp;
-		if(tmp>0x80)
+		if(tmp & 0x80)
 		{
 			file->Read(&tmp,1);
-			delta += tmp<<8;
+			delta = tmp | (delta<<8);
 		}
 		//TODO
 		
@@ -122,20 +122,23 @@ void TMidiReader::ReadTrack(int size)
 		file->Read(&p2,1);
 		
 		
+		//cout<<"Event: "<<hex<<(int)type<<","<<(int)p1<<","<<(int)p2<<endl;
+		
+		
 		switch(type)
 		{
 			case 0x8:
-				cout<<"Note Off "<<hex<<((int)p1)<<endl;
+				cout<<delta<<" Note Off "<<((int)p1)<<endl;
 			break;
 			
 			case 0x9:
-				cout<<"Note On "<<hex<<((int)p1)<<endl;
+				cout<<delta<<" Note On "<<((int)p1)<<endl;
 			break;
 			
 			
 		
-			default:
-			cout<<"Unknown event :"<<hex<<((int)type)<<endl;	
+			//default:
+			//cout<<"Unknown event :"<<((int)type)<<endl;	
 		}
 		
 	}
