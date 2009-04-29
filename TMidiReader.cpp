@@ -94,7 +94,11 @@ void TMidiReader::ReadTrack(int size)
 	unsigned char channel;
 	unsigned char p1;
 	unsigned char p2;
+	unsigned char meta_event;
+	unsigned int meta_event_length;
 	unsigned int tmp = 0;
+	unsigned char sink[256];
+	
 	
 	off_t block = file->Position() + size;
 	
@@ -118,8 +122,7 @@ void TMidiReader::ReadTrack(int size)
 		type=type>>4;
 		channel=tmp&0x0000000F;
 		
-		file->Read(&p1,1);
-		file->Read(&p2,1);
+		
 		
 		
 		//cout<<"Event: "<<hex<<(int)type<<","<<(int)p1<<","<<(int)p2<<endl;
@@ -127,11 +130,30 @@ void TMidiReader::ReadTrack(int size)
 		
 		switch(type)
 		{
+			case 0xF:
+				file->Read(&meta_event,1);
+				cout<<delta<<" Meta event: "<<(int)meta_event<<endl;
+				file->Read(&tmp,1);
+				meta_event_length=tmp;
+				if(tmp & 0x80)
+				{
+					file->Read(&tmp,1);
+					meta_event_length = tmp | (meta_event_length<<8);
+				}
+				if(meta_event_length>0)
+					file->Read(sink,meta_event_length);
+					
+			break;
+			
 			case 0x8:
+				file->Read(&p1,1);
+				file->Read(&p2,1);
 				cout<<delta<<" Note Off "<<((int)p1)<<endl;
 			break;
 			
 			case 0x9:
+				file->Read(&p1,1);
+				file->Read(&p2,1);
 				cout<<delta<<" Note On "<<((int)p1)<<endl;
 			break;
 			
