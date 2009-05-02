@@ -12,6 +12,17 @@ namespace org
 	{
 		namespace resources
 		{
+			
+			class TMidiNote
+			{
+				public:
+				unsigned int delta;
+				unsigned char type;
+				unsigned char note;
+				
+			};
+			
+			
 			class TMidiReader
 			{
 				private:
