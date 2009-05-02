@@ -107,15 +107,15 @@ void TMidiReader::ReadTrack(int size)
 	while(file->Position()<block)
 	{
 		
-		
+		//This variable length reader can be improved :)
 		file->Read(&tmp,1);
 		delta=tmp;
-		if(tmp & 0x80)
+		if(tmp > 127)
 		{
 			file->Read(&tmp,1);
-			delta = tmp | (delta<<8);
+			delta = ((delta & 0x0000007F)<<8) | tmp;
 		}
-		//TODO
+		
 		
 		file->Read(&tmp,1);
 		type=tmp & 0x000000F0;

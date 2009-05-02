@@ -68,6 +68,10 @@ void TGraphics::Draw()
 	
 	glEnd();
 	
+	glTranslatef(0.0f,10.0f,0.0f);
+	DrawUserFret(0);
+	glTranslatef(0.0f,20.0f,0.0f);
+	DrawUserFret(1);
 		
 	
 }
@@ -78,4 +82,29 @@ void TGraphics::Clear()
 	
 	glClearColor(0.3f,0.7f,0.3f,1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+
+void TGraphics::DrawUserFret(int color)
+{
+	glBegin(GL_QUADS);
+	
+	switch(color)
+	{
+		case 0:
+			glColor3ub(60,255,60);
+		break;
+		
+		case 1:
+			glColor3ub(255,60,60);
+		break;
+	}
+	
+	glVertex2f(0.0f,0.0f);
+	glVertex2f(8.0f,0.0f);
+	glVertex2f(8.0f,8.0f);
+	glVertex2f(0.0f,8.0f);
+		
+	
+	glEnd();
 }

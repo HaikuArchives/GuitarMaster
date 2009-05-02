@@ -20,6 +20,9 @@ namespace org
 				void Draw();
 				void Clear();
 				
+				//game methods
+				void DrawUserFret(int color);
+				
 				
 			};
 		}
