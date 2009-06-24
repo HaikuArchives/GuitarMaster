@@ -17,8 +17,8 @@ TMidiReader::TMidiReader(const char * filename)
 	file = NULL;
 	file = new BFile(filename,B_READ_ONLY);
 	ReadChunk();
-	ReadChunk();
-	ReadChunk();	
+	//ReadChunk();
+	//ReadChunk();	
 }
 
 
@@ -68,6 +68,7 @@ bool TMidiReader::ReadChunk()
 void TMidiReader::ReadHeader()
 {
 	unsigned short type,tracks,division;
+	bool fpsmode = false;
 	
 	cout<<"Reading header"<<endl;
 	
@@ -79,9 +80,19 @@ void TMidiReader::ReadHeader()
 	tracks=SwapUshort(type);
 	division=SwapUshort(division);
 	
+	if(division & 0x8000 == 0x8000)fpsmode = true;
+	else fpsmode = false;
+	division = division & 0x7FFF;
+		
+
+	
 	cout<<"type "<<type<<endl;
 	cout<<"tracks "<<tracks<<endl;
-	cout<<"division "<<division<<endl;
+	
+	if(fpsmode)
+		cout<<"division "<<division<<" fps"<<endl;
+		else
+		cout<<"division "<<division<<" ticks per beat"<<endl;
 	 
 		
 }
