@@ -17,8 +17,8 @@ TMidiReader::TMidiReader(const char * filename)
 	file = NULL;
 	file = new BFile(filename,B_READ_ONLY);
 	ReadChunk();
-	//ReadChunk();
-	//ReadChunk();	
+	ReadChunk();
+	ReadChunk();	
 }
 
 
@@ -138,12 +138,12 @@ void TMidiReader::ReadTrack(int size)
 		
 		//cout<<"Event: "<<hex<<(int)type<<","<<(int)p1<<","<<(int)p2<<endl;
 		
-		
+		//event case
 		switch(type)
 		{
 			case 0xF:
 				file->Read(&meta_event,1);
-				cout<<delta<<" Meta event: "<<(int)meta_event<<endl;
+				
 				file->Read(&tmp,1);
 				meta_event_length=tmp;
 				if(tmp & 0x80)
@@ -153,6 +153,20 @@ void TMidiReader::ReadTrack(int size)
 				}
 				if(meta_event_length>0)
 					file->Read(sink,meta_event_length);
+					
+				//meta event case	
+				switch(meta_event)
+				{
+					case 0x51:
+					tempo=sink[0] | (sink[1]<<8) | (sink[2]<<16);
+					tempo = 60000000 / tempo;
+					cout<<delta<<" Set Tempo: "<<(unsigned int)tempo<< " bpm"<<endl;
+					break;
+					
+					default:
+					cout<<delta<<" Meta event: "<<(int)meta_event<<endl;
+					break;
+				}	
 					
 			break;
 			
