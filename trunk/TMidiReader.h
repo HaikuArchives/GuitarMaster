@@ -26,6 +26,9 @@ namespace org
 			class TMidiReader
 			{
 				private:
+				
+				unsigned int tempo;
+				
 				BFile * file;
 				
 				bool ReadChunk();
