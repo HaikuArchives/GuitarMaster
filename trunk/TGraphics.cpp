@@ -79,9 +79,10 @@ void TGraphics::Draw()
 
 void TGraphics::Clear()
 {
+	glLoadIdentity();
 	glFlush();	
-	glClearColor(0.3f,0.7f,0.3f,1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	//glClearColor(0.3f,0.7f,0.3f,1.0f);
+	//glClear(GL_COLOR_BUFFER_BIT);
 }
 
 
