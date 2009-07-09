@@ -12,6 +12,9 @@ namespace org
 			{
 				
 				public:
+				int alpha;
+				
+				
 				TGraphics();
 				~TGraphics();
 				

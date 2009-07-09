@@ -10,7 +10,7 @@ using namespace std;
 
 TGraphics::TGraphics()
 {
-	
+	alpha = 0;
 }
 
 TGraphics::~TGraphics()
@@ -45,34 +45,55 @@ void TGraphics::Draw()
 {
 	Clear();
 	
+	alpha--;
+	if(alpha<=-10)alpha = 0;
+	glPushMatrix();
+	glTranslatef(alpha,0.0f,0.0f);
 	
+	for(int i=0;i<11;i++)
+	{
+		for(int j=0;j<5;j++)
+		{
+			if(i%2)
+				glColor3ub(100,255,100);
+			else
+				glColor3ub(100,180,100);
+			
+			
+			glBegin(GL_QUADS);
+			glVertex2i(alpha+(i*10),j*20);
+			glVertex2i(alpha+(i*10)+10,j*20);
+			glVertex2i(alpha+(i*10)+10,(j*20)+20);
+			glVertex2i(alpha+(i*10),(j*20)+20);
+			
+			glEnd();
+			
+			
+		}
+		
+	}
+	
+	glPopMatrix();
+	
+	glColor3ub(255,0,0);
 	glBegin(GL_LINES);
-	
-	//glColor4f(0.0f,0.0f,1.0f,1.0f);
-	
-	glVertex2f(0.0f,20.0f);
-	glVertex2f(100.0f,20.0f);
-	
-	glVertex2f(0.0f,40.0f);
-	glVertex2f(100.0f,40.0f);
-	
-		
-	glVertex2f(0.0f,60.0f);
-	glVertex2f(100.0f,60.0f);
-	
-		
-	glVertex2f(0.0f,80.0f);
-	glVertex2f(100.0f,80.0f);
-
-	glColor4f(0.0f,0.0f,1.0f,1.0f);
+	glVertex2i(0,20);
+	glVertex2i(100,20);
+	glVertex2i(0,40);
+	glVertex2i(100,40);
+	glVertex2i(0,60);
+	glVertex2i(100,60);
+	glVertex2i(0,80);
+	glVertex2i(100,80);
 	
 	glEnd();
 	
+	/*
 	glTranslatef(0.0f,10.0f,0.0f);
 	DrawUserFret(0);
 	glTranslatef(0.0f,20.0f,0.0f);
 	DrawUserFret(1);
-		
+	*/	
 	
 }
 
