@@ -5,6 +5,7 @@
 
 #include <Window.h>
 #include <MessageRunner.h>
+#include <String.h>
 #include "TGameView.h"
 
 #define T_MSG_FRAME 0x00FF0011
@@ -20,10 +21,11 @@ namespace org
 			
 			TGameView * gameview;
 			BMessageRunner * timer;
+			BString * SongsDirLocation;
 				
 			public:
 		
-			TMainWindow(BRect frame);
+			TMainWindow(BRect frame, BString * songDirectory = NULL);
 			~TMainWindow();
 			
 		
