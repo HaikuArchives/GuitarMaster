@@ -10,10 +10,11 @@ using namespace org::toxic;
 using namespace std;
 
 
-TApp::TApp():BApplication("application/x-vnd.guitar-master")
+TApp::TApp(BString * UserSpecifiedSongDir):BApplication("application/x-vnd.guitar-master")
 {
 	cout<<"Guitar Master project"<<endl;
 	cout<<"Toxic Labs 2008/2009"<<endl;
+	this->UserSpecifiedSongDir = UserSpecifiedSongDir;
 }
 
 
@@ -27,5 +28,5 @@ void TApp::ReadyToRun()
 {
 	cout<<"ready!!"<<endl;
 	
-	window = new TMainWindow(BRect(50,50,300,300));
+	window = new TMainWindow(BRect(50,50,300,300), UserSpecifiedSongDir);
 }

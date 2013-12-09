@@ -5,6 +5,7 @@
 #ifndef _TApp_
 #define _TApp_
 
+#include <String.h>
 #include <Application.h>
 #include "TMainWindow.h"
 
@@ -16,9 +17,10 @@ namespace org
 		{
 			private:
 			TMainWindow * window;
+			BString * UserSpecifiedSongDir;
 			public:
 		
-			TApp();
+			TApp(BString * UserSpecifiedSongDir = NULL);
 			~TApp();
 			
 			virtual void ReadyToRun();
