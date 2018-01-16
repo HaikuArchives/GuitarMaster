@@ -1,0 +1,6 @@
+resource app_flags B_MULTIPLE_LAUNCH;
+
+resource app_version {
+	short_info = "GuitarMaster",
+	long_info  = "A game of musical skill and fast fingers"
+};
